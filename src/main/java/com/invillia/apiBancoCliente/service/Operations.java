@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class Operations {
 
     private AccountRepository accountRepository;
-    
+
     @Autowired
     public Operations(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
