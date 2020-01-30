@@ -6,7 +6,6 @@ import com.invillia.apiBancoCliente.exception.InvalidValueException;
 import com.invillia.apiBancoCliente.model.Account;
 import com.invillia.apiBancoCliente.model.request.OperationRequest;
 import com.invillia.apiBancoCliente.repository.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +13,6 @@ public class Operations {
 
     private AccountRepository accountRepository;
 
-    @Autowired
     public Operations(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
@@ -23,6 +21,7 @@ public class Operations {
 
         Account account = accountRepository.findById(id).orElseThrow(AccountNotFoundException::new);
 
+        //Creating variables to keep account data to leave the code more readable
         double value = operationRequest.getValue();
         double balance = account.getBalance();
         double availableOverdraft = account.getAvailableOverdraft();
@@ -41,6 +40,7 @@ public class Operations {
         }else{
             throw new InvalidValueException("Valor deve ser maior que 0");
         }
+
         account.setAvailableOverdraft(availableOverdraft);
         account.setBalance(balance);
         accountRepository.save(account);
@@ -50,13 +50,14 @@ public class Operations {
 
         Account account = accountRepository.findById(id).orElseThrow(AccountNotFoundException::new);
 
-
+        //Creating variables to keep account data to leave the code more readable
         double value = depositRequest.getValue();
         double maxOverdraft = account.getMaxOverdraft();
         double availableOverdraft = account.getAvailableOverdraft();
         double balance = account.getBalance();
 
         double accountDebt = maxOverdraft - availableOverdraft;
+
         if (value > 0) {
             if (value >= accountDebt) {
                 availableOverdraft = maxOverdraft;

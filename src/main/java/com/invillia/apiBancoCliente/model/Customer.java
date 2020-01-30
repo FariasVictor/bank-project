@@ -28,5 +28,7 @@ public class Customer {
     @CPF
     @Column(nullable = false, length = 11)
     private String cpf;
+
+
 }
 

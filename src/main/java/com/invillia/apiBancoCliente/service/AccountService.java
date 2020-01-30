@@ -2,7 +2,6 @@ package com.invillia.apiBancoCliente.service;
 
 import com.invillia.apiBancoCliente.exception.AccountNotFoundException;
 import com.invillia.apiBancoCliente.exception.CustomerNotFoundException;
-import com.invillia.apiBancoCliente.exception.InvalidValueException;
 import com.invillia.apiBancoCliente.mapper.AccountMapper;
 import com.invillia.apiBancoCliente.model.Account;
 import com.invillia.apiBancoCliente.model.Customer;
@@ -50,10 +49,9 @@ public class AccountService {
     }
 
     public void update(Long id, UpdateLimitRequest updateLimitRequest) {
-        if (updateLimitRequest.getMaxOverdraft() < 300) {
-            throw new InvalidValueException("Valor deve ser maior que 300");
-        }
         Account account = accountRepository.findById(id).orElseThrow(AccountNotFoundException::new);
+
+        account.setAvailableOverdraft(account.getAvailableOverdraft() + updateLimitRequest.getMaxOverdraft() - account.getMaxOverdraft());
         accountMapper.updateMaxOverdraftByUpdateLimitRequest(account, updateLimitRequest);
         accountRepository.save(account);
     }
