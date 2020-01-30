@@ -27,8 +27,7 @@ public class Account {
     @Column(nullable = false)
     private double maxOverdraft;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "customer")
-    @Valid
+    @ManyToOne
+    @JoinColumn(name="customer_id",nullable=false)
     private Customer customer;
 }
