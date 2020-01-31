@@ -41,6 +41,11 @@ public class CustomerService {
         return customerResponse;
     }
 
+    public List<CustomerResponse> findByName(String name){
+        List<Customer> customers = customerRepository.findByNameContaining(name).orElseThrow(CustomerNotFoundException::new);
+        List<CustomerResponse> customerResponses = customerMapper.customerListToCustomerResponseList(customers);
+        return customerResponses;
+    }
     @Transactional
     public void delete(Long id){
         Customer customer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);

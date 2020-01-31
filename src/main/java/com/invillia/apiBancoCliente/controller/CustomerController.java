@@ -54,4 +54,9 @@ public class CustomerController {
         customerService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/filter")
+    public List<CustomerResponse> findByName(@RequestParam(name="name")String name){
+        return customerService.findByName(name);
+    }
 }
